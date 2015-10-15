@@ -16,6 +16,7 @@ object Mustache {
     val engineManager: ScriptEngineManager = new ScriptEngineManager
     val engine: ScriptEngine = engineManager.getEngineByName(engineName)
     engine.eval(new InputStreamReader(this.getClass.getResourceAsStream("/template/mustache.js")))
+    engine.eval(new InputStreamReader(this.getClass.getResourceAsStream("/template/custom.js")))
     val invocable: Invocable = engine.asInstanceOf[Invocable]
     val json: AnyRef = engine.eval("JSON")
     val data: AnyRef = invocable.invokeMethod(json, "parse", jsonString)
