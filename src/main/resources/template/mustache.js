@@ -1,7 +1,3 @@
-/*
- * Copyright (C) 2015 Mogobiz SARL. All rights reserved.
- */
-
 /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
  * http://github.com/janl/mustache.js
@@ -580,3 +576,15 @@
     mustache.Writer = Writer;
 
 }));
+
+
+var Mogobiz = {
+    render: function (template, jsonData) {
+        if (mogobizExtension) {
+            for (prop in mogobizExtension) {
+                jsonData[prop] = mogobizExtension[prop]
+            }
+        }
+        return Mustache.render(template, jsonData)
+    }
+}
