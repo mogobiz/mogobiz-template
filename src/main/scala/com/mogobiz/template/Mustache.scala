@@ -5,14 +5,12 @@
 package com.mogobiz.template
 
 import java.io.InputStreamReader
-import javax.script.{Invocable, ScriptEngine, ScriptEngineManager}
+import javax.script.{ Invocable, ScriptEngine, ScriptEngineManager }
 
 import org.apache.commons.io.IOUtils
 
 object Mustache {
-  def using[T <: {def close()}]
-  (resource: T)
-  (block: T => Unit) = {
+  def using[T <: { def close() }](resource: T)(block: T => Unit) = {
     try {
       block(resource)
     } finally {
