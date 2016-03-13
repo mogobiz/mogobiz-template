@@ -4,7 +4,7 @@
 
 package com.mogobiz.template
 
-import java.io.InputStreamReader
+import java.io.{ InputStream, InputStreamReader }
 import javax.script.{ Invocable, ScriptEngine, ScriptEngineManager }
 
 import org.apache.commons.io.IOUtils
@@ -19,7 +19,7 @@ object Mustache {
   }
 
   // http://www.codechewing.com/library/conditional-if-else-check-mustache-js/
-  def apply(template: String, jsonString: String): String = {
+  def apply(template: String, customJs: Option[InputStream], jsonString: String): String = {
     println(jsonString)
     val javaVersion = java.lang.Double.parseDouble(System.getProperty("java.specification.version"))
     val engineName = if (javaVersion < 1.8) "rhino" else "nashorn"
@@ -35,6 +35,12 @@ object Mustache {
         engine.eval(r)
       }
     }
+    customJs.map { input =>
+      using(new InputStreamReader(input)) { r =>
+        engine.eval(r)
+      }
+    }
+
     val invocable: Invocable = engine.asInstanceOf[Invocable]
     val json: AnyRef = engine.eval("JSON")
     val data: AnyRef = invocable.invokeMethod(json, "parse", jsonString)
@@ -55,7 +61,7 @@ object Mustache {
         |Final Price : {{{transactionUuid}}}
         |Thank You
       """.stripMargin
-    val res = Mustache(template, js)
+    val res = Mustache(template, None, js)
     println(res)
   }
 }
