@@ -7,10 +7,12 @@ package com.mogobiz.template
 import java.io.{ InputStream, InputStreamReader }
 import javax.script.{ Invocable, ScriptEngine, ScriptEngineManager }
 
-import com.typesafe.scalalogging.slf4j.LazyLogging
+import com.typesafe.scalalogging.slf4j.{ LazyLogging, Logger }
 import org.apache.commons.io.IOUtils
+import org.slf4j.LoggerFactory
 
-object Mustache extends LazyLogging {
+object Mustache {
+  val logger = Logger(LoggerFactory.getLogger("com.mogobiz.template.Mustache"))
   def using[T <: { def close() }](resource: T)(block: T => Unit) = {
     try {
       block(resource)
