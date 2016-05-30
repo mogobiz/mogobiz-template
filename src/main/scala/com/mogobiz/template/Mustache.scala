@@ -7,9 +7,10 @@ package com.mogobiz.template
 import java.io.{ InputStream, InputStreamReader }
 import javax.script.{ Invocable, ScriptEngine, ScriptEngineManager }
 
+import com.typesafe.scalalogging.slf4j.LazyLogging
 import org.apache.commons.io.IOUtils
 
-object Mustache {
+object Mustache extends LazyLogging {
   def using[T <: { def close() }](resource: T)(block: T => Unit) = {
     try {
       block(resource)
@@ -20,7 +21,7 @@ object Mustache {
 
   // http://www.codechewing.com/library/conditional-if-else-check-mustache-js/
   def apply(template: String, customJs: Option[InputStream], jsonString: String): String = {
-    println(jsonString)
+    logger.debug(jsonString)
     val javaVersion = java.lang.Double.parseDouble(System.getProperty("java.specification.version"))
     val engineName = if (javaVersion < 1.8) "rhino" else "nashorn"
 
@@ -62,6 +63,6 @@ object Mustache {
         |Thank You
       """.stripMargin
     val res = Mustache(template, None, js)
-    println(res)
+    logger.debug(res)
   }
 }
