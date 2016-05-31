@@ -7,8 +7,7 @@ package com.mogobiz.template
 import java.io.{ InputStream, InputStreamReader }
 import javax.script.{ Invocable, ScriptEngine, ScriptEngineManager }
 
-import com.typesafe.scalalogging.slf4j.{ LazyLogging, Logger }
-import org.apache.commons.io.IOUtils
+import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
 
 object Mustache {
