@@ -37,7 +37,7 @@ object Mustache {
         engine.eval(r)
       }
     }
-    customJs.map { input =>
+    customJs.foreach { input =>
       using(new InputStreamReader(input)) { r =>
         engine.eval(r)
       }
