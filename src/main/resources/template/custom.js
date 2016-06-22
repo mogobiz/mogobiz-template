@@ -54,9 +54,50 @@ function formatDate() {
     }
 }
 
+function fnPaymentMethod() {
+    return function(text, render){
+        "use strict";
+        var s = render(text);
+        var trimmedText = null;
+        if( s!=null ){
+            trimmedText = s.trim().toUpperCase()
+        };
+        if ( (trimmedText != null)  && ( "CREDIT_CARD" == trimmedText ) ){
+            return "Credit Card";
+        } else {
+            return "Other (" + trimmedText + ")";
+        }
+    };
+}
+
+/** Function that display the price and the currency spaced.*/
+function fnFormatDisplayPrice() {
+    return function (text, render) {
+        var originalPrice = render(text);
+        if( originalPrice!= undefined && originalPrice!== undefined &&  originalPrice != null ){
+            "use strict";
+            var price = originalPrice.trim();
+            var tab = price.split(/[0-9]+/);
+            var currency = null;
+            for(var i=0;i<tab.length;i++) {
+                if( tab[i].length > 1 ){
+                    currency = tab[i]
+                    if( price.lastIndexOf(currency) == 0 ){
+                        return price.replace(currency, currency + ' ');
+                    }else{
+                        return price.replace(currency, ' ' +  currency );
+                    }
+                }
+            }
+        }
+    }
+}
+
 var mogobizExtension = {
     fn_payment_status: pay,
-    fn_format_date: formatDate
+    fn_format_date: formatDate,
+    fn_payment_method: fnPaymentMethod,
+    fn_format_display_price : fnFormatDisplayPrice
 }
 
 
